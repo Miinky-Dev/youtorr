@@ -4,7 +4,8 @@ Il permet la surveillance et le téléchargement des publications d'un youtubeur
 Youtorr est codé en PHP/SQL et utilise le projet youtube-dl. http://rg3.github.io/youtube-dl/
 
 Contact :
-#jeannedhack on freenode.net
-sybix[ât]jeannedhack[döt]org
+IRC : jeannedhack on freenode.net
+Mail : sybix[ât]jeannedhack[döt]org
+Twitter : @4sybix2
 Report bug at : http://bugzilla.jeannedhack.org/describecomponents.cgi?product=Youtorr
 
