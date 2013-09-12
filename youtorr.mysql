@@ -1,0 +1,129 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Sep 09, 2013 at 09:01 PM
+-- Server version: 5.1.70-log
+-- PHP Version: 5.4.17-pl0-gentoo
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `youtorr`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `channels`
+--
+
+CREATE TABLE IF NOT EXISTS `channels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel` text NOT NULL,
+  `url` text NOT NULL,
+  `force` int(11) NOT NULL,
+  `log_file` text NOT NULL,
+  `delete` int(11) NOT NULL,
+  `desc` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `errors`
+--
+
+CREATE TABLE IF NOT EXISTS `errors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_url` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `timestamp` int(11) NOT NULL,
+  `url` text NOT NULL,
+  `type` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(255) NOT NULL,
+  `mail` varchar(255) NOT NULL,
+  `role` int(11) NOT NULL,
+  `password` text NOT NULL,
+  `quota` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `login`, `mail`, `role`, `password`, `quota`) VALUES
+(1, 'admin', '', 100, '4d70ba41cdef09a49fd76f7a209c4914df891bc0f0ba5381a4b5061c350a82127f9a8d9c46575cc07374b9b2818c942daf6e367d3e881d43f164577360267c2af1891cea80fc05e433c943254c6bdabc159577a02a7395dfebbfbc4f7661d4af56f2d372131a45936de40160007368a56ef216a30cb202c66d3145fd24380906', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_meta`
+--
+
+CREATE TABLE IF NOT EXISTS `user_meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `key` text NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `videos`
+--
+
+CREATE TABLE IF NOT EXISTS `videos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` text NOT NULL,
+  `name` text NOT NULL,
+  `desc` text NOT NULL,
+  `provider` text NOT NULL,
+  `torrent_file` text NOT NULL,
+  `add_date` int(11) NOT NULL,
+  `id_channel` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `videos_tmp`
+--
+
+CREATE TABLE IF NOT EXISTS `videos_tmp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` text NOT NULL,
+  `desc` text NOT NULL,
+  `name` text NOT NULL,
+  `log_file` text NOT NULL,
+  `id_channel` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

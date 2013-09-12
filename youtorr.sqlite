@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS "channels";
+CREATE TABLE "channels" ("id" INTEGER PRIMARY KEY  NOT NULL ,"channel" TEXT,"url" TEXT NOT NULL ,"force" INTEGER,"log_file" TEXT,"delete" INTEGER, "desc" TEXT);
+DROP TABLE IF EXISTS "errors";
+CREATE TABLE "errors" ("id" INTEGER PRIMARY KEY  NOT NULL ,"id_url" INTEGER DEFAULT (null) ,"message" TEXT,"timestamp" INTEGER DEFAULT (null) ,"url" text,"type" TEXT);
+DROP TABLE IF EXISTS "user_meta";
+CREATE TABLE "user_meta" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "id_user" INTEGER, "key" TEXT, "value" TEXT);
+DROP TABLE IF EXISTS "users";
+CREATE TABLE "users" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "login" VARCHAR, "mail" VARCHAR, "role" INTEGER, "password" TEXT, "quota" INTEGER);
+INSERT INTO "users" VALUES(1,'admin','',100,'4bbf058ab847f46d17419cfd14d7d960a79dbdbc2408e2832fd649b60113879ef4c493b57c8fb3a122bb11deb4cb469ebf63c9ffc3ee71b62193beb70bc5cd0ef1891cea80fc05e433c943254c6bdabc159577a02a7395dfebbfbc4f7661d4af56f2d372131a45936de40160007368a56ef216a30cb202c66d3145fd24380906',NULL);
+DROP TABLE IF EXISTS "videos";
+CREATE TABLE "videos" ("id" INTEGER PRIMARY KEY  NOT NULL , "url" TEXT, "name" TEXT, "desc" TEXT, "provider" TEXT, "torrent_file" TEXT, "add_date" INTEGER, "id_channel" INTEGER);
+DROP TABLE IF EXISTS "videos_tmp";
+CREATE TABLE "videos_tmp" ("id" INTEGER PRIMARY KEY  NOT NULL ,"url" TEXT,"desc" text DEFAULT (null) ,"name" TEXT,"log_file" TEXT,"id_channel" INTEGER);
