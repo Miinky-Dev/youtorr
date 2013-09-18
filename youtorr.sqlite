@@ -11,3 +11,4 @@ DROP TABLE IF EXISTS "videos";
 CREATE TABLE "videos" ("id" INTEGER PRIMARY KEY  NOT NULL , "url" TEXT, "name" TEXT, "desc" TEXT, "provider" TEXT, "torrent_file" TEXT, "add_date" INTEGER, "id_channel" INTEGER);
 DROP TABLE IF EXISTS "videos_tmp";
 CREATE TABLE "videos_tmp" ("id" INTEGER PRIMARY KEY  NOT NULL ,"url" TEXT,"desc" text DEFAULT (null) ,"name" TEXT,"log_file" TEXT,"id_channel" INTEGER);
+ALTER TABLE "main"."videos" ADD COLUMN "magnetlink" TEXT
