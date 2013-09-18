@@ -29,10 +29,15 @@ if (!empty($_POST['search'])){
 	$search=htmlentities($_POST['search']);
 	$sqlSearch=str_replace(' ','%',$search);
 	$sqlSearch='%'.$sqlSearch.'%';
+	$sqlSearchUrl=escapeshellcmd($search);
+	$sqlSearchUrl="%".$sqlSearchUrl."%";
+	if($config['dbEngine']=="mysql") //Mysql doesn't like \?= in url
+		$sqlSearchUrl=str_replace("\\","\\\\",$sqlSearchUrl);
 	if($_GET['page']=='default' || $_GET['page']=='video'){
-		$conn=$db->prepare("SELECT `videos`.`name`,`videos`.`torrent_file`,`channels`.`channel` FROM `videos` INNER JOIN `channels` ON `channels`.`id`=`videos`.`id_channel` WHERE `videos`.`name`
-		LIKE :search OR `videos`.`desc` LIKE :search");
+		$conn=$db->prepare("SELECT `videos`.`name`,`videos`.`torrent_file`,`channels`.`channel` FROM `videos` INNER JOIN `channels` 
+		ON `channels`.`id`=`videos`.`id_channel` WHERE `videos`.`name` LIKE :search OR `videos`.`desc` LIKE :search OR `videos`.`url` LIKE :url");
 		$conn->bindParam(':search',$sqlSearch);
+		$conn->bindParam(':url',$sqlSearchUrl);
 		$conn->execute();
 		$videos=$conn->fetchAll(PDO::FETCH_ASSOC);
 	}
