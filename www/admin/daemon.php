@@ -1,4 +1,24 @@
 <?php
+/**
+* This file is part of youtorr
+*
+* @author Jean-Lou Hau
+* @copyright 2013 Jean-Lou Hau sybix@jeannedhack.org
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with youtorr.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
 if (!function_exists('pcntl_fork')) {
 	die("error: This script requires PHP compiled with PCNTL module.\n");
 }
@@ -280,7 +300,7 @@ while (1){
 				$conn->bindParam(':id_channel', $video['id_channel']);
 				$conn->execute();
 				$res = $conn->fetch(PDO::FETCH_ASSOC);
-				mktorrent($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],$res['channel'],$config['channelSymlink'],
+				$magnetLink=mktorrent($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],$res['channel'],$config['channelSymlink'],
 				$config['tmpDir']);
 				$torrentFile = $res['channel']."-".$fileName.".torrent";
 				if($config['zipUserTorrent']){
@@ -305,17 +325,18 @@ while (1){
 					}
 				}
 			}else{ 
-				mktorrent($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],'',false,$config['tmpDir']);
+				$magnetLink=mktorrent($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],'',false,$config['tmpDir']);
 				$torrentFile = $fileName.".torrent";
 			}
 			#put in video table
-			$conn = $db->prepare("INSERT INTO `videos` (`url`,`name`,`desc`,`torrent_file`,`provider`,`add_date`,`id_channel`) 
-			VALUES ( :url, :name, :desc, :torrent, :provider,:add_date, :id_channel)");
+			$conn = $db->prepare("INSERT INTO `videos` (`url`,`name`,`desc`,`torrent_file`,`magnetlink`,`provider`,`add_date`,`id_channel`) 
+			VALUES ( :url, :name, :desc, :torrent,:magnet, :provider,:add_date, :id_channel)");
 			$conn->bindParam(':url', $video['url']);
 			$conn->bindParam(':id_channel', $video['id_channel']);
 			$conn->bindParam(':name', $fileName);
 			$conn->bindParam(':desc', $video['desc']);
-			$conn->bindParam(':torrent',$torrentFile );
+			$conn->bindParam(':torrent',$torrentFile);
+			$conn->bindParam(':magnet',$magnetLink);
 			$conn->bindParam(':provider', $provider);
 			$conn->bindParam(':add_date', $curTimestamp);
 			$conn->execute();

@@ -1,6 +1,27 @@
 <?php
+/**
+* This file is part of youtorr
+*
+* @author Jean-Lou Hau
+* @copyright 2013 Jean-Lou Hau sybix@jeannedhack.org
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with youtorr.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
 
 $db=null;
+include('inc/Torrent.php');
 try { #Connect to the db
 	switch($config['dbEngine']){
 		case "sqlite" :
@@ -84,7 +105,7 @@ function dbCounter($sql,$db){
 	return $result;
 }
 
-function mktorrent($file,$trackerUrl,$torrentDir,$torrentData,$channel='',$symlink=false,$tmpDir=''){
+function mktorrent($file,$trackersUrl,$torrentDir,$torrentData,$channel='',$symlink=false,$tmpDir=''){
 	$dest = '';
 	$output = '';
 	if(empty($channel) || !$symlink){
@@ -95,10 +116,17 @@ function mktorrent($file,$trackerUrl,$torrentDir,$torrentData,$channel='',$symli
 		$output = $channel."-".$file.".torrent";
 	}
 	rename("$tmpDir/$file","$dest/$file");
-        $cmd = escapeshellcmd("mktorrent -a '".$trackerUrl."' $dest/$file --output=\"$output\"");
-		syslog(LOG_INFO,$cmd);
-        $retour = exec($cmd);
-        if(substr_count($retour,'done')){#Move torrent file and data
+	$trackersUrl = explode(',',$trackersUrl);
+	$torrent = new Torrent ("$dest/$file");
+	foreach($trackersUrl as $tracker){
+		$torrent->announce($tracker);
+	}
+	$magnet=$torrent->magnet(false);
+	$torrent->save($output);
+        #$cmd = escapeshellcmd("mktorrent -a '".$trackerUrl."' $dest/$file --output=\"$output\"");
+	#syslog(LOG_INFO,$cmd);
+        #$retour = exec($cmd);
+        if(!$torrent->errors()){#Move torrent file and data
             #copy the file to the torrent directory
 			if(!empty($channel) && $symlink){
 				symlink("$dest/$file","$torrentData/$file");
@@ -106,7 +134,7 @@ function mktorrent($file,$trackerUrl,$torrentDir,$torrentData,$channel='',$symli
 			#unlink("$file");
 			copy($output,"$torrentDir/$output");
 			unlink($output);
-			return true;
+			return $magnet;
         }else{
 		unlink($file);
 		return false;
@@ -295,3 +323,4 @@ function knownErrors($errors,$url,$id,$type,$db,$config){
 	}
 	return $errors;
 }
+$torrent = new Torrent ();
