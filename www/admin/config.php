@@ -1,4 +1,24 @@
 <?php
+/**
+* This file is part of youtorr
+*
+* @author Jean-Lou Hau
+* @copyright 2013 Jean-Lou Hau sybix@jeannedhack.org
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with youtorr.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
 #Youtorr config
 $config['trackerUrl'] = "http://tracker.openbittorrent.com:80/announce,udp://tracker.openbittorrent.com:80/announce";
 $config['torrentFileDir'] = ""; #For daemon
@@ -27,6 +47,7 @@ $config['deleteFile']=true;
 $config['zipUserTorrent']=true; #Only for channel
 $config['zipPrefix']="YOUTORR-"; #May / cause bug ? Prefix name of zip file
 $config['torrentExt']=''; #transmission add .added to the .torrent file
+$config['forceHTTPS']=false;
 $config['daemonLog']=LOG_PID | LOG_PERROR;
 #End youtorr config
 
@@ -52,4 +73,5 @@ $config['youtubedlErrors']['Country']='ERROR: YouTube said: The uploader has not
 $config['youtubedlErrors']['Invalid']='ERROR: Invalid URL:';
 $config['youtubedlErrors']['Unknown']='ERROR: unknown url type:';
 $config['youtubedlErrors']['Nickname']='WARNING: unable to extract uploader nickname';
+$config['youtubedlErrors']['Blocked']='ERROR: YouTube said: This video contains content';
 define('YOUTORR','');
