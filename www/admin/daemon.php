@@ -137,6 +137,7 @@ while (1){
 			$errors = launchProccess($cmd,$logFile);
 			$errors = knownErrors($errors,$channel['url'],$channel['id'],'channel_check',$db,$config);
 			if(!empty($errors)){
+				syslog(LOG_WARNING,$errors);
 				var_dump($channel);
 				#if need remove logfile
 				if(!$config['keepLogs']){

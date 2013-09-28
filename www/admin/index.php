@@ -26,6 +26,10 @@ $config['serverURL']=$_SERVER['HTTP_HOST'].'/'.$config['sitePath'];
 #Http or https ?
 $proto = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') ? 'https://' : 'http://';
 if($proto!="https://"){
+	#echo "https://".$config['serverURL']."admin/";
+	if($config['forceHTTPS']){
+		header('Location: https://'.$config['serverURL'].'admin/');
+	}
 	echo "https is not active, you should use <a href='https://".$config['serverURL']."/admin/index.php'>https</a> for login<br />";
 }
 #whoami

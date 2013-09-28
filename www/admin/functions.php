@@ -273,8 +273,8 @@ function knownErrors($errors,$url,$id,$type,$db,$config){
 	$errorsArray = explode("\n",$errors);
 	$errorsArray = array_unique($errorsArray);
 	$errorsArray = array_filter($errorsArray);
+	$i=0;
 	foreach($errorsArray as $error){
-		echo $error."\n";
 		foreach($config['youtubedlErrors'] as $youtubedlError){
 			if(strstr($error,$youtubedlError) != false){
 				$errorMsg = $youtubedlError;
@@ -283,12 +283,13 @@ function knownErrors($errors,$url,$id,$type,$db,$config){
 						syslog(LOG_WARNING,$config['youtubedlErrors']['402']." append");
 						syslog(LOG_WARNING,"Wait for ".$config['timeToSleep']);
 						sleep($config['timeToSleep']);
-						$errors = str_replace($youtubedlError."\n",'',$errors);
+						//$errors = str_replace($youtubedlError."\n",'',$errors);
 						break;
 					case $config['youtubedlErrors']['Unknown'] :
 						$removeFromTMP = true;
 						break;
 				}
+				$errors = str_replace($errorsArray[$i]."\n",'',$errors);
 			}
 		}
 		#Save error, with the id in BDD
@@ -320,7 +321,7 @@ function knownErrors($errors,$url,$id,$type,$db,$config){
 				}
 			}
 		}
+		$i++;
 	}
 	return $errors;
 }
-$torrent = new Torrent ();
