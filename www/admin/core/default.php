@@ -27,17 +27,23 @@ if (!empty($_POST['url'])){ #url was posted :)
 	$url = trim($_POST['url']);
 	$urlArray=explode(' ',$url ); #nospace
 	$url=$urlArray[0];
-	$url = escapeshellcmd(htmlentities($url)); #try to be secure
+	$url = escapeshellcmd($url); #try to be secure
 	$name=htmlentities($_POST['name']);
 	$desc=htmlentities($_POST['desc']);
+	echo $url;
+	echo substr_count($url,"list=");
 	#if is a youtube channel
-	if(substr_count($url,'youtube')>0 && substr_count($url,'user') > 0){
+	if(substr_count($url,'youtube') > 0 && (substr_count($url,'user') || substr_count($url,"list=") ) > 0){
+		$type="user";
+		if(substr_count($url,'list=')){ #It's a playlist
+			$type="playlist";
+		}
 		$sql = "SELECT * FROM `channels` WHERE `url` = :url";
 		$conn = $db->prepare($sql);
 		$conn->bindParam(':url', $url);
 		$conn->execute();
 		$res = $conn->fetchAll(PDO::FETCH_ASSOC);
-		if(count($res) > 0){ #video in db
+		if(count($res) > 0){ #channel in db update user_meta if needed
 			$conn=$db->prepare("SELECT * FROM `user_meta` WHERE `id_user`=:id_user AND `key`='channel' AND `value` = :id_channel");
 			$conn->bindParam(':id_user',$_SESSION['id']);
 			$conn->bindParam(':id_channel',$res[0]['id']);
@@ -49,10 +55,11 @@ if (!empty($_POST['url'])){ #url was posted :)
 				$conn->bindParam(':id_channel',$res[0]['id']);
 				$conn->execute();
 			}
-		}else{#not in db, check videos_tmp
-			$sql="INSERT INTO `channels` (`url`,`force`) VALUES (:url,1)";
+		}else{#not in db, add channels
+			$sql="INSERT INTO `channels` (`url`,`force`,`type`) VALUES (:url,1,:type)";
 			$conn = $db->prepare($sql);
 			$conn->bindParam(':url', $url);
+			$conn->bindParam(':type', $type);
 			$conn->execute();
 			$conn = $db->prepare("SELECT `id` FROM `channels` WHERE `url` = :url");
 			$conn->bindParam(':url', $url);

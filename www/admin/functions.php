@@ -303,7 +303,8 @@ function knownErrors($errors,$url,$id,$type,$db,$config){
 			$res=$conn->fetchAll(PDO::FETCH_ASSOC);
 			if(count($res) == 0){
 				$conn = $db->prepare("INSERT INTO `errors` (`url`,`id_url`,`message`,`timestamp`,`type`) VALUES (:url,:id_url,:error,:timestamp,:type)");
-				$conn->bindParam(':url',$url);
+				$url2=htmlentities($url);
+				$conn->bindParam(':url',$url2);
 				$conn->bindParam(':id_url',$id);
 				$currentTime = time();
 				$conn->bindParam(':timestamp',$currentTime);

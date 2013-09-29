@@ -97,7 +97,7 @@ while (1){
 				$logFileOpen = fopen($logFile,'r');
 				while($line = fgets($logFileOpen)){ #crapy hack cause of the log
 					if(empty($channel['channel'])){
-						if(substr_count($line,'user') && empty($channel['channel'])){#Get the youtube user
+						if((substr_count($line,'user') ||substr_count($line,'playlist') )&& empty($channel['channel'])){#Get the youtube user
 							$channelNameArray = explode(' ',$line);
 							$channelName = $channelNameArray[1];
 							$channel['channel'] = substr($channelName,0,-1);
