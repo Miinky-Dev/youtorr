@@ -65,7 +65,7 @@ foreach($userList as $user){
 <fieldset><legend>Errors</legend>
 <?php 
 foreach($errors as $error){
-	echo $error['url'].' : '.$error['message'].'<br />';
+	echo date("m/d/y H:i",$error['timestamp']).' : '.$error['type'].' '.$error['url'].' '.$error['message'].'<br />';
 }
 ?>
 </fieldset>

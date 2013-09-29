@@ -114,7 +114,7 @@ if(count($res) > 0){ #If video is queued
 	}
 }
 #Get errors
-$conn=$db->prepare("SELECT * FROM errors");
+$conn=$db->prepare("SELECT `errors`.`url`,`errors`.`message`,`errors`.`timestamp`,`type` FROM `errors` ORDER BY `type`,`timestamp` DESC");
 $conn->execute();
 $errors = $conn->fetchAll(PDO::FETCH_ASSOC);
 #check the downloading channel

@@ -277,13 +277,12 @@ function knownErrors($errors,$url,$id,$type,$db,$config){
 	foreach($errorsArray as $error){
 		foreach($config['youtubedlErrors'] as $youtubedlError){
 			if(strstr($error,$youtubedlError) != false){
-				$errorMsg = $youtubedlError;
+				$errorMsg = $errorsArray[$i];
 				switch ($youtubedlError) {
 					case $config['youtubedlErrors']['402'] :
 						syslog(LOG_WARNING,$config['youtubedlErrors']['402']." append");
 						syslog(LOG_WARNING,"Wait for ".$config['timeToSleep']);
 						sleep($config['timeToSleep']);
-						//$errors = str_replace($youtubedlError."\n",'',$errors);
 						break;
 					case $config['youtubedlErrors']['Unknown'] :
 						$removeFromTMP = true;
