@@ -30,9 +30,11 @@ foreach($channels as $channel){
 		echo '<a href="'.$proto.$config['serverURL'].$config['frontTorrentFileDir'].'/'.$config['zipPrefix'].$channel['channel'].".zip".'">All torrent files</a>';
 	}
 	echo '</legend>';
-	if(!empty($channel['size'])){
+	if(!empty($channel['size']))
 		echo 'Estimed size : ' . $channel['size'].'<br />';
-	}
+	if(!empty($channel['desc']))
+		echo $channel['desc'].'<br />';
+
 	foreach($channel['videos'] as $video){
 		echo '<a href="'.$proto.$config['serverURL'].'index.php?page=video&video='.$video['id'].'">'.$video['name']
 		.'</a><br />

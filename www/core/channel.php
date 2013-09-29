@@ -26,7 +26,7 @@ $channelID=0;
 if(isset($_GET['channel']) && !empty($_GET['channel'])){
 	$channelID=getChannelId($_GET['channel'],$db);
 }
-$sql="SELECT DISTINCT(`channels`.`id`),`channels`.`channel`,`channels`.`url` FROM `channels` INNER JOIN `videos` ON `videos`.`id_channel` = `channels`.`id`";
+$sql="SELECT DISTINCT(`channels`.`id`),`channels`.`channel`,`channels`.`url`,`channels`.`desc` FROM `channels` INNER JOIN `videos` ON `videos`.`id_channel` = `channels`.`id`";
 if($channelID!=0){
 		$sql.=" WHERE `channels`.`id` = :id";
 }
