@@ -21,19 +21,6 @@
 */
 include_once('admin/config.php');
 include_once('admin/functions.php');
-$db=null;
-try { #Connect to the db
-	if($config['dbEngine']=="sqlite"){
-		$db = new PDO('sqlite:admin/'.$config['dbName']);
-	}elseif($config['dbEngine']=="mysql"){
-		$db = new PDO('mysql:host='.$config['dbHost'].';port='.$config['dbPort'].';dbname='.$config['dbName'],$config['dbUser'],$config['dbPassword']);
-	}elseif($config['dbEngine']=="postgre"){
-		echo $config['dbEngine']." not supported yet";
-	}
-} catch (PDOException $e ) {
-	print "Erreur!: " . $e->getMessage() . "<br/>";
-	die();
-}
 #Http or https ?
 $proto = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') ? 'https://' : 'http://';
 #whoami
