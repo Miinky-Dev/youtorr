@@ -30,8 +30,6 @@ if (!empty($_POST['url'])){ #url was posted :)
 	$url = escapeshellcmd($url); #try to be secure
 	$name=htmlentities($_POST['name']);
 	$desc=htmlentities($_POST['desc']);
-	echo $url;
-	echo substr_count($url,"list=");
 	#if is a youtube channel
 	if(substr_count($url,'youtube') > 0 && (substr_count($url,'user') || substr_count($url,"list=") ) > 0){
 		$type="user";
@@ -56,10 +54,12 @@ if (!empty($_POST['url'])){ #url was posted :)
 				$conn->execute();
 			}
 		}else{#not in db, add channels
-			$sql="INSERT INTO `channels` (`url`,`force`,`type`) VALUES (:url,1,:type)";
+			$sql="INSERT INTO `channels` (`url`,`force`,`type`,`desc`,`channel`) VALUES (:url,1,:type,:desc,:name)";
 			$conn = $db->prepare($sql);
 			$conn->bindParam(':url', $url);
 			$conn->bindParam(':type', $type);
+			$conn->bindParam(':name', $name);
+			$conn->bindParam(':desc', $desc);
 			$conn->execute();
 			$conn = $db->prepare("SELECT `id` FROM `channels` WHERE `url` = :url");
 			$conn->bindParam(':url', $url);
@@ -71,7 +71,7 @@ if (!empty($_POST['url'])){ #url was posted :)
 			$conn->execute();
 		}
 	}else{
-		addUrl($url,$db);
+		addUrl($url,$db,'',$desc,$name);
 	}
 }
 #Get follow channels

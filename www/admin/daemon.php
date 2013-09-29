@@ -196,7 +196,7 @@ while (1){
 	}
 	#end channel youtube
 	#Download video
-	$conn = $db->prepare("SELECT `id`,`url`,`name`,`log_file`,`id_channel` FROM `videos_tmp`");
+	$conn = $db->prepare("SELECT `id`,`url`,`name`,`log_file`,`id_channel`,`desc` FROM `videos_tmp`");
 	$conn->execute();
 	$res = $conn->fetchAll(PDO::FETCH_ASSOC);
 	foreach ($res as $video){
@@ -222,10 +222,10 @@ while (1){
 				$cmd .= " -t";
 			}
 		}else{
-			if ($config['tmpDir'] != ''){
-				$cmd .= "-o '".$config['tmpDir'].$fileName;
-			}
 			$fileName = $video['name'];
+			if ($config['tmpDir'] != ''){
+				$cmd .= " -o '".$config['tmpDir'].$fileName."'";
+			}
 		}
 		#set log file
 		if(!empty($video['log_file'])){

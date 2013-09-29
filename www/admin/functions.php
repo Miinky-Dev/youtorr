@@ -142,7 +142,7 @@ function mktorrent($file,$trackersUrl,$torrentDir,$torrentData,$channel='',$syml
 }
 
 #return false if url is in videos or tmp_video 
-function addUrl($url,$db,$channel=''){
+function addUrl($url,$db,$channel='',$desc='',$name=''){
 	$sql = "SELECT * FROM `videos` WHERE `url` = :url"; #check if url exist in videos
 	$conn = $db->prepare($sql);
 	$conn->bindParam(':url', $url);
@@ -189,10 +189,12 @@ function addUrl($url,$db,$channel=''){
 			}
 			return false;
 		}elseif(count($res) == 0){ #let's download the video
-			$sql = "INSERT INTO `videos_tmp` (`url`,`id_channel`) VALUES (:url,:id_channel)";
+			$sql = "INSERT INTO `videos_tmp` (`url`,`id_channel`,`desc`,`name`) VALUES (:url,:id_channel,:desc,:name)";
 			$conn = $db->prepare($sql);
 			$conn->bindParam(':url', $url);
 			$conn->bindParam(':id_channel',$channel);
+			$conn->bindParam(':desc', $desc);
+			$conn->bindParam(':name', $name);
 			$conn->execute();
 			if(!empty($_SESSION['id'])){
 				$sql = "SELECT * FROM `videos_tmp` WHERE `url` = :url"; #Get video id
