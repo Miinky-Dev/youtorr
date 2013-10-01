@@ -75,6 +75,8 @@ while (1){
 	$errorsCounter = 0;
 	foreach($res as $channel){
 		#if no channel name we Check channel properties
+		#Check name conflict
+		$channel['channel'] = (nameExist($channel['channel'],$db)) ? '' : $channel['channel'];
 		if(empty($channel['channel'])){
 			$logFile = $config['logDir']."/channelCheck-".$channel['id']."-$curTimestamp.log";
 			#Simulate download of first video to get some info
@@ -210,6 +212,8 @@ while (1){
 			continue;
 		}
 		$video['name'] = str_replace(' ','_',$video['name']);
+		#Check if name conflict
+		$video['name'] = (nameExist($video['name'],$db)) ? '' : $video['name'];
 		$logFile = $config['logDir']."/download-".$video['id']."-$curTimestamp.log";
 		#forge the command line
 		$cmd = $config['pythonPath']." ".$config['youtubedlPath']." -i --restrict-filenames ".$video['url']."";

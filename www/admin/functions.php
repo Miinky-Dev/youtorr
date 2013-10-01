@@ -327,3 +327,12 @@ function knownErrors($errors,$url,$id,$type,$db,$config){
 	}
 	return $errors;
 }
+function nameExist($name,$db){
+	$nbName=0;
+	$nbName+=dbCounter("SELECT count(id) AS count FROM `videos` WHERE `videos`.`name` ='".$name."'",$db);
+	$nbName+=dbCounter("SELECT count(id) AS count FROM `videos_tmp` WHERE `videos_tmp`.`name` ='".$name."'",$db);
+	$nbName+=dbCounter("SELECT count(id) AS count FROM `channels` WHERE `channels`.`channel` ='".$name."'",$db);
+	if($nbName > 1 )
+		return true;
+	return false;
+}

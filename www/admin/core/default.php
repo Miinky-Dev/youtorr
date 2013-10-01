@@ -81,7 +81,6 @@ $conn->execute();
 $channels=Array();
 $userChannelList = $conn->fetchAll(PDO::FETCH_ASSOC);
 if(count($userChannelList)>0){
-	//$i=0;
 	$counter=0;
 	foreach($userChannelList as $userChannel){
 		$conn=$db->prepare("SELECT * FROM `channels` WHERE `id` = :id_channel");
