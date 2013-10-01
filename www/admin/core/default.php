@@ -100,9 +100,11 @@ if(count($userChannelList)>0){
 		$channels[$counter]['videos']=$conn->fetchAll(PDO::FETCH_ASSOC);
 		$channels[$counter]['nbVideo']=dbCounter("SELECT count(*) AS count FROM `videos` WHERE `id_channel` = ".$userChannel['value'],$db);
 		$channels[$counter]['remain'] = dbCounter("SELECT count(*) AS count FROM `videos_tmp` WHERE `id_channel` = ".$userChannel['value'],$db);
-		$channels[$counter]['currentSize']=getDirSize($config['torrentDataDir']."/".$channels[$counter]['channel']."/");
-		$channels[$counter]['currentSize']=inSize($channels[$counter]['currentSize'],$config['maxSize']);
-		$channels[$counter]['currentSize']=substr($channels[$counter]['currentSize'],0,5);
+		if($channels[$counter]['nbVideo'] > 0){
+			$channels[$counter]['currentSize']=getDirSize($config['torrentDataDir']."/".$channels[$counter]['channel']."/");
+			$channels[$counter]['currentSize']=inSize($channels[$counter]['currentSize'],$config['maxSize']);
+			$channels[$counter]['currentSize']=substr($channels[$counter]['currentSize'],0,5);
+		}
 		$counter++;
 	}
 }

@@ -57,7 +57,8 @@ if(count($channels) > 0){
 		';
 		echo 'Total videos : '.$channel['nbVideo'].'<br />';
 		echo 'Remain videos : '.$channel['remain'].'<br />';
-		echo 'Disk Space : '.$channel['currentSize'].'<br />';
+		if(!empty($channel['currentSize']))
+			echo 'Disk Space : '.$channel['currentSize'].'<br />';
 		if(count($channel['videos']) > 0){
 			foreach($channel['videos'] as $video){
 				echo '<a href="'.$proto.$config['serverURL'].'index.php?page=video&video='.$video['id'].'">'.$video['name']
