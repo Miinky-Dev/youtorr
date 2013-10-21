@@ -44,6 +44,7 @@ Role :
 	<option value="admin">admin</option>
 	<option value="user" selected="selected">user</option>
 </select><br />
+<input type="hidden" name="seed" value="<?php echo $_SESSION['seed']; ?>" />
 <input type="submit" value="Add"/>
 </form>
 </fieldset>
@@ -57,6 +58,7 @@ foreach($userList as $user){
 	echo '<input type="checkbox" name="id[]" value="'.$user['id'].'"/>'.$user['login'].' : '.$user['role'].'<br />';
 }
 ?>
+<input type="hidden" name="seed" value="<?php echo $_SESSION['seed']; ?>" />
 <input type="submit"/>
 <form>
 </fieldset>

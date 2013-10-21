@@ -146,6 +146,6 @@ foreach($channels as $channel){
 	$channels[$counter]['nbFollower']=dbCounter("SELECT count(*) AS count FROM `user_meta` WHERE `key`='channel' AND `value`=".$channel['id'],$db);
 	$counter++;
 }
-
+$_SESSION['seed'] = bin2hex(mcrypt_create_iv(64, MCRYPT_DEV_URANDOM));
 include('views/admin.php');
 ?>

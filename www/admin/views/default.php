@@ -31,6 +31,7 @@ if(!defined('YOUTORR')){
 	<input type="texte" name="name" /><br />
 	force video description :<br />
 	<input type="texte" name="desc" /><br />
+	<input type="hidden" name="seed" value="<?php echo $_SESSION['seed']; ?>" />
 	<input type="submit" value="send" />
 </form>
 <?php 

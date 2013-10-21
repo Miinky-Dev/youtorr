@@ -19,6 +19,7 @@
 * License along with youtorr.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
+
 include_once('config.php');
 include_once('functions.php');
 session_start ();
@@ -42,6 +43,8 @@ if(isset($_GET['logout']) && $_GET['logout']==true){
 if(!empty($_POST['login']) && !empty($_POST['passwd'])){
 	include('core/user.php');
 }
+if(!empty($_POST) && $_POST['seed'] != $_SESSION['seed'])
+	unset($_POST);
 if(empty($_SESSION['login'])){
 	include('views/login.php');
 }else{

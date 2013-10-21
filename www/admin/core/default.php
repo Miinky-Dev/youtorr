@@ -141,4 +141,5 @@ if(count($userVideoTMPList)>0){
 		$counter++;
 	}
 }
+$_SESSION['seed'] = bin2hex(mcrypt_create_iv(64, MCRYPT_DEV_URANDOM));
 include('views/default.php');
