@@ -60,4 +60,4 @@ foreach($channels as $channel){
 	}
 	$counter++;
 }
-include('views/channel.php');
+#include('views/channel.php');

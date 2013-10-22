@@ -49,6 +49,7 @@ $config['zipPrefix']="YOUTORR-"; #May / cause bug ? Prefix name of zip file
 $config['torrentExt']=''; #transmission add .added to the .torrent file
 $config['forceHTTPS']=false;
 $config['daemonLog']=LOG_PID | LOG_PERROR;
+$config['enableAPI']=true;
 #End youtorr config
 
 #Database config

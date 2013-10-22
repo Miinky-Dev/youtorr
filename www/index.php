@@ -39,13 +39,17 @@ include_once('core/search.php');
 switch($_GET['page']){
 	case 'channel':
 		include('core/channel.php');
+		include('views/channel.php');
 		break;
 	case 'video':
 		include('core/video.php');
+		include('views/video.php');
 		break;
 	default:
 		$_GET['page']='default';
 		include('core/default.php');
+		include('views/channel.php');
+		include('views/video.php');
 		break;
 }
 include('views/footer.php');

@@ -44,4 +44,4 @@ if($videoID!=0){
 $conn->execute();
 $videos=$conn->fetchAll(PDO::FETCH_ASSOC);
 
-include('views/video.php');
+#include('views/video.php');
