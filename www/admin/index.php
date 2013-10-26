@@ -42,9 +42,10 @@ if(isset($_GET['logout']) && $_GET['logout']==true){
 
 if(!empty($_POST['login']) && !empty($_POST['passwd'])){
 	include('core/user.php');
+}else{
+	if(!empty($_POST) && $_POST['seed'] != $_SESSION['seed'])
+		unset($_POST);
 }
-if(!empty($_POST) && $_POST['seed'] != $_SESSION['seed'])
-	unset($_POST);
 if(empty($_SESSION['login'])){
 	include('views/login.php');
 }else{
