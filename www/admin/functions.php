@@ -23,12 +23,12 @@
 $db=null;
 include('inc/Torrent.php');
 try { #Connect to the db
-	switch($config['dbEngine']){
+	switch(DB_ENGINE){
 		case "sqlite" :
-			$db = new PDO('sqlite:'.$config['dbName']);	
+			$db = new PDO('sqlite:'.DB_NAME);	
 			break;
 		case "mysql" :
-			$db = new PDO('mysql:host='.$config['dbHost'].';port='.$config['dbPort'].';dbname='.$config['dbName'],$config['dbUser'],$config['dbPassword']);
+			$db = new PDO('mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME,DB_USER,DB_PASSWORD);
 			break;
 		default :
 			syslog(LOG_EMERG,$config['dbEngine']." not supported");
@@ -336,3 +336,4 @@ function nameExist($name,$db){
 		return true;
 	return false;
 }
+

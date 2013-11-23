@@ -24,7 +24,6 @@ include_once('admin/config.php');
 include_once('admin/functions.php');
 session_start ();
 
-
 #Http or https ?
 $proto = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') ? 'https://' : 'http://';
 #whoami
