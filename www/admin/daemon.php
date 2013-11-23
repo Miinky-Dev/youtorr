@@ -23,12 +23,72 @@ if (!function_exists('pcntl_fork')) {
 	die("error: This script requires PHP compiled with PCNTL module.\n");
 }
 
-include_once('config.php');
-include_once('functions.php');
-openlog("youtorr", $config['daemonLog'], LOG_LOCAL0);
-syslog(LOG_INFO,"Youtorr starting");
+chdir(dirname(__FILE__));
 
-while (1){
+$shortopts = "";
+$shortopts .= "d:";
+$shortopts .= "D";
+$longopts = array(
+	"dir:",
+	"daemon",
+);
+$options = getopt($shortopts,$longopts);
+$daemonize=false;
+$directory='';
+foreach($options as $option => $value){
+	switch($option){
+		case 'd':
+		case 'dir':
+			$directory=$value;
+			break;
+		case 'D':
+		case 'daemon':
+			$daemonize = true;
+			break;
+	}
+}
+
+include_once('config.php');
+
+openlog("youtorr", $config['daemonLog'], LOG_LOCAL0);
+
+declare(ticks=1);
+if($daemonize){
+	if(file_exists(PIDFILE)){
+		syslog(LOG_EMERG,"Pid file found, abord daemonize youtorr");
+		exit();
+	}
+	syslog(LOG_INFO,"Launching daemon");
+	$pid = pcntl_fork();
+	if ($pid == -1) {
+		die("impossible de forker");
+	} else if ($pid) {
+		exit(); // nous sommes le processus père
+	} else {
+		syslog(LOG_INFO,"Writing pid file ".PIDFILE);
+		file_put_contents(PIDFILE,getmypid()."\n");
+	     // nous sommes le processus fils
+	}
+
+	// détachons le processus du terminal
+	if (posix_setsid() == -1) {
+	    die("impossible de se détacher du terminal");
+	}
+}
+
+if(!empty($directory)){
+	chdir($directory);
+	$config['cwd']=$directory;
+}
+
+include_once('functions.php');
+// configuration des gestionnaires de signaux
+pcntl_signal(SIGTERM, "sig_handler");
+pcntl_signal(SIGHUP, "sig_handler");
+
+$continue=true;
+
+while ($continue){
 	#Check for delete
 	$conn = $db->prepare("SELECT `id`,`channel` FROM `channels` WHERE `delete` = 1");
 	$conn->execute();
@@ -365,8 +425,31 @@ while (1){
 			}
 		}
 		#End download video
+	if(!$continue)
+		break;
 	}
 	syslog(LOG_INFO,date('H:i:s')." - End of download next in ".$config['timeToSleep']." sec");
 	sleep($config['timeToSleep']);
+}
+
+exit();
+
+function sig_handler($signo) 
+{
+     switch ($signo) {
+         case SIGKILL: #Exit
+         case SIGTERM: #Exit
+		$continue=false;
+		syslog(LOG_INFO,"Youtorr daemon softly exit");
+		unlink(PIDFILE);
+		exit();
+		break;
+         case SIGHUP:
+             // gestion des tâches de redémarrage
+             break;
+         default:
+             // gestion des autres tâches
+     }
+
 }
 ?>
