@@ -14,6 +14,4 @@ Mail : sybix[ât]jeannedhack[döt]org
 
 Twitter : @4sybix2
 
-Report bug at : http://bugzilla.jeannedhack.org/describecomponents.cgi?product=Youtorr
-
 youtorr utilise torrent-rw, https://github.com/adriengibrat/torrent-rw
