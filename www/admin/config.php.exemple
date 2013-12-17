@@ -50,6 +50,7 @@ $config['torrentExt']=''; #transmission add .added to the .torrent file
 $config['forceHTTPS']=false;
 $config['daemonLog']=LOG_PID | LOG_PERROR;
 $config['enableAPI']=true;
+$config['daemonize']=false;
 #End youtorr config
 
 #Database config

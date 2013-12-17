@@ -429,7 +429,10 @@ while ($continue){
 		break;
 	}
 	syslog(LOG_INFO,date('H:i:s')." - End of download next in ".$config['timeToSleep']." sec");
-	sleep($config['timeToSleep']);
+	if($config['daemonize'])
+		sleep($config['timeToSleep']);
+	else
+		$continue=false;
 }
 
 exit();
