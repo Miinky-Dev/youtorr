@@ -54,15 +54,15 @@ $config['enableAPI']=true;
 
 #Database config
 #sqlite
-#$config['dbEngine']="sqlite";
-#$config['dbName']="/home/sybix/public_html/youtorr.db";
+#define('DB_ENGINE',"sqlite");
+#define('DB_NAME',"/home/sybix/public_html/youtorr/youtorr.db");
 #mysql
-$config['dbEngine']="mysql";
-$config['dbName']="youtorr";
-$config['dbUser']="youtorr";
-$config['dbPassword']="";
-$config['dbHost']="localhost";
-$config['dbPort']=3306;
+define('DB_ENGINE',"mysql");
+define('DB_NAME',"youtorr");
+define('DB_USER',"youtorr");
+define('DB_PASSWORD',"youtorr");
+define('DB_HOST',"localhost");
+define('DB_PORT',3306);
 #End database config
 
 #Do no edit until you know what's you're doing
