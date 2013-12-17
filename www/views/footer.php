@@ -27,6 +27,6 @@ Contact :
 Mail : sybix[ât]jeannedhack[döt]org <br />
 IRC :	  #jeannedhack on freenode <br />
 Twitter : @4sybix2 <br />
-Source code on <a href="https://github.com/sybix/youtorr">github</a>
+Source code on <a href="https://git.sybix.fr/sybix/youtorr">here</a>
 </body>
 </html>
