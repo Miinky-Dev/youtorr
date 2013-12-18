@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS "channels";
-CREATE TABLE "channels" ("id" INTEGER PRIMARY KEY  NOT NULL ,"channel" TEXT,"url" TEXT NOT NULL ,"force" INTEGER,"log_file" TEXT,"delete" INTEGER, "desc" TEXT);
+CREATE TABLE "channels" ("id" INTEGER PRIMARY KEY  NOT NULL ,"channel" TEXT,"url" TEXT NOT NULL ,"force" INTEGER,"log_file" TEXT,"delete" INTEGER, "desc" TEXT,"type" TEXT);
 DROP TABLE IF EXISTS "errors";
 CREATE TABLE "errors" ("id" INTEGER PRIMARY KEY  NOT NULL ,"id_url" INTEGER DEFAULT (null) ,"message" TEXT,"timestamp" INTEGER DEFAULT (null) ,"url" text,"type" TEXT);
 DROP TABLE IF EXISTS "user_meta";

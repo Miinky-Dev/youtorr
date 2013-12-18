@@ -36,10 +36,12 @@ if(!empty($_GET['channel'])){
 		$sql.=" WHERE `id_channel` = '".$channelID."'";
 	}
 }
-$sql.=" ORDER BY `id` DESC";
+$sql.=" ORDER BY `videos`.`id` DESC";
+#echo $sql;
 $conn=$db->prepare($sql);
 $conn->execute();
 $videos=$conn->fetchAll(PDO::FETCH_ASSOC);
+#var_dump($videos);
 
 header("Content-Type: application/xml; charset=UTF-8");
 echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
