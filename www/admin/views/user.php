@@ -34,6 +34,7 @@ New <input type="password" name="newPassword"  /><br />
 Retype new<input type="password" name="newPassword2"  /><br />
 </fieldset>
 <input type="hidden" name="updateProfile" value="update" />
+<input type="hidden" name="seed" value="<?php echo $_SESSION['seed']; ?>" />
 Password <input type="password" name="Password"  /><br />
 <input type="submit" name="submit" value="Update profile" />
 </form>
