@@ -70,7 +70,7 @@ define('DB_PORT',3306);
 $config['pythonPath'] = "python2";
 $config['youtubedlPath'] = "/usr/bin/youtube-dl ";
 $config['youtubedlErrors']['402']='ERROR: unable to download video info webpage: HTTP Error 402: Payment Required';
-$config['youtubedlErrors']['404']='ERROR: YouTube said: This video does not exist.'; #This variable is used to handle a 'know error'
+$config['youtubedlErrors']['404']='ERROR: Unable to download webpage: HTTP Error 404'; #This variable is used to handle a 'know error'
 $config['youtubedlErrors']['Country']='ERROR: YouTube said: The uploader has not made this video available in your country.';
 $config['youtubedlErrors']['Invalid']='ERROR: Invalid URL:';
 $config['youtubedlErrors']['Unknown']='ERROR: unknown url type:';
