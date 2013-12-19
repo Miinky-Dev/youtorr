@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `channels` (
   `log_file` text NOT NULL,
   `delete` int(11) NOT NULL,
   `desc` text NOT NULL,
+  `type` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
