@@ -28,7 +28,7 @@ $config['serverURL']=$_SERVER['SERVER_NAME'].'/';
 
 $sql="SELECT `videos`.`name` , `videos`.`desc` , `videos`.`torrent_file` ,`videos`.`magnetlink` , `videos`.`provider` , `videos`.`url` , `videos`.`id` ,
 `channels`.`channel`,`channels`.`url` AS channel_url FROM `videos`
-INNER JOIN `channels` ON `videos`.`id_channel` = `channels`.`id` ";
+LEFT JOIN `channels` ON `videos`.`id_channel` = `channels`.`id` ";
 if(!empty($_GET['channel'])){
 	$channel=$_GET['channel'];
 	$channelID=getChannelId($channel,$db);
