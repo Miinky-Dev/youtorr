@@ -37,25 +37,24 @@ if(!empty($_GET['channel'])){
 	}
 }
 $sql.=" ORDER BY `videos`.`id` DESC";
-#echo $sql;
 $conn=$db->prepare($sql);
 $conn->execute();
 $videos=$conn->fetchAll(PDO::FETCH_ASSOC);
-#var_dump($videos);
 
 header("Content-Type: application/xml; charset=UTF-8");
 echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">'."\n";
-echo '<atom:link href="http://dallas.example.com/rss.xml" rel="self" type="application/rss+xml" />'."\n";
 echo '<channel>'."\n";
+echo '<atom:link href="'.$proto.$config['serverURL'].'rss.php" rel="self" type="application/rss+xml" />'."\n";
 echo '<title>Youtube to torrent</title>'."\n";
-echo "<link>".$config['serverURL']." </link>\n";
+echo '<description>Youtube to torrent</description>'."\n";
+echo "<link>".$proto.$config['serverURL']."rss.php </link>\n";
 
 foreach($videos as $video){
 	$url=str_replace('\\','',$video['url']);
 	echo "<item>\n";
 	echo "<title><![CDATA[".$video['name']."]]></title>\n";
-	echo "<guid><![CDATA[".$config['serverURL']."index.php?page=video&video=".$video['id']."]]></guid>\n";
+	echo "<guid><![CDATA[".$proto.$config['serverURL']."index.php?page=video&video=".$video['id']."]]></guid>\n";
 	echo "<description><![CDATA[ ";
 	if(!empty($video['channel'])){
 		echo "User <a href='".$video['channel_url']."'>".$video['channel']."</a> add a new video<br />";
