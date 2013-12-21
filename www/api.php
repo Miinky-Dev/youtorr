@@ -20,42 +20,43 @@
 *
 */
 
+include_once('admin/config.defaults.php');
 include_once('admin/config.php');
 include_once('admin/functions.php');
 if(!$config['enableAPI'])
-	die();
+    die();
 
 function formatChannel($channels){
-	$result ='';
-	if(!empty($_GET['channel']) && count($channels) > 1)
-		echo "False";
-	else{
-		if($_GET['format']=='txt'){
-			if(!empty($_GET['channel'])){
-				foreach($channels[0]['videos'] as $video){
-					echo $video['name']."<br />";
-				}
-			}else{
-				foreach($channels as $channel)
-					$result.=$channel['channel']."<br/>";
-			}
-		}else{
-			//echo json_encode($channels[0]);
-			$result = array ();
-			if(!empty($_GET['channel'])){
-				echo count($channels)."<br />";
-				foreach($channels[0]['videos'] as $video){
-					array_push($result,$video['name'],"plop");
-				}
-			}else{
-				foreach($channels as $channel){
-					array_push($result,array ($channel['channel'] => $channel['url']));
-				}
-			}
-			$result=json_encode($result);
-		}
-	}
-	echo $result;
+    $result ='';
+    if(!empty($_GET['channel']) && count($channels) > 1)
+        echo "False";
+    else{
+        if($_GET['format']=='txt'){
+            if(!empty($_GET['channel'])){
+                foreach($channels[0]['videos'] as $video){
+                    echo $video['name']."<br />";
+                }
+            }else{
+                foreach($channels as $channel)
+                    $result.=$channel['channel']."<br/>";
+            }
+        }else{
+            //echo json_encode($channels[0]);
+            $result = array ();
+            if(!empty($_GET['channel'])){
+                echo count($channels)."<br />";
+                foreach($channels[0]['videos'] as $video){
+                    array_push($result,$video['name'],"plop");
+                }
+            }else{
+                foreach($channels as $channel){
+                    array_push($result,array ($channel['channel'] => $channel['url']));
+                }
+            }
+            $result=json_encode($result);
+        }
+    }
+    echo $result;
 }
 
 function help(){
@@ -71,18 +72,18 @@ If Channel doesn't exist, api will answer you : false
 }
 
 if(empty($_GET['page'])){
-	$_GET['page']='default';
+    $_GET['page']='default';
 }
 $_GET['default'] = empty($_GET['default']) ? 'default' : $_GET['default'];
 $_GET['format'] = empty($_GET['format']) ? 'json' : $_GET['format'];
 #$_GET['channel'] = ( $channel > 0) ? $_GET['channel'] : '' ;
 switch($_GET['page']){
-	case 'channel':
-		include('core/channel.php');
-		formatChannel($channels);
-		break;
-	default:
-		$_GET['page']='default';
-		help();
-		break;
+    case 'channel':
+        include('core/channel.php');
+        formatChannel($channels);
+        break;
+    default:
+        $_GET['page']='default';
+        help();
+        break;
 }

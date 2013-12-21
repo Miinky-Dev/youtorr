@@ -19,7 +19,7 @@
 * License along with youtorr.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-include('../www/admin/config.php');
+include('../www/admin/config.defaults.php');
 include('../www/admin/functions.php');
 $force=false;
 $trackers=explode(',',$config['trackerUrl']);
@@ -29,17 +29,17 @@ $res=$conn->fetchAll(PDO::FETCH_ASSOC);
 $i=0;
 $total = count($res);
 foreach($res as $video){
-	$i++;
-	if(!empty($video['magnetlink']) && !$force)
-		continue;
-	echo "$i/$total : ".$video['name']."\n";
-	$torrent = new Torrent($config['torrentDataDir'].'/'.$video['name']);
-	$torrent->announce($trackers);
-	$magnet = $torrent->magnet(false);
-	$conn=$db->prepare("UPDATE `videos` SET `magnetlink` = :magnet WHERE `id`=:id");
-	$conn->bindParam(":magnet",$magnet);
-	$conn->bindParam(":id",$video['id']);
-	$conn->execute();
+    $i++;
+    if(!empty($video['magnetlink']) && !$force)
+        continue;
+    echo "$i/$total : ".$video['name']."\n";
+    $torrent = new Torrent($config['torrentDataDir'].'/'.$video['name']);
+    $torrent->announce($trackers);
+    $magnet = $torrent->magnet(false);
+    $conn=$db->prepare("UPDATE `videos` SET `magnetlink` = :magnet WHERE `id`=:id");
+    $conn->bindParam(":magnet",$magnet);
+    $conn->bindParam(":id",$video['id']);
+    $conn->execute();
 }
 echo "\n";
 ?>

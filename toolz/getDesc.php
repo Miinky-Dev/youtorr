@@ -20,6 +20,7 @@
 *
 */
 
+include_once('../www/admin/config.defaults.php');
 include_once('../www/admin/config.php');
 include_once('../www/admin/functions.php');
 
@@ -27,28 +28,28 @@ $conn=$db->prepare("SELECT * FROM videos");
 $conn->execute();
 $res = $conn->fetchAll(PDO::FETCH_ASSOC);
 foreach($res as $video){
-	if(!empty($video['desc']))
-		continue;
-	$curTimestamp=time();
-	$logFile = "desc-".$video['id']."-$curTimestamp.log";
-	$cmd = $config['pythonPath']." ".$config['youtubedlPath']." ".$video['url']." --get-description";
-	if($config['verbose']){
-		echo "Commande : $cmd\n";
-		echo "Log file : $logFile\n";
-	}
-	$errors=launchProccess($cmd,$logFile);
-	if(empty($errors)){
-		$desc=file_get_contents($logFile);
-		echo $video['name']." :\n";
-		echo $desc."\n";
-		$conn=$db->prepare("UPDATE `videos` SET `desc` = :desc WHERE `id` = :id");
-		$desc=nl2br($desc);
-		$conn->bindParam(':desc',$desc);
-		$conn->bindParam(':id',$video['id']);
-		$conn->execute();
-	}else{
-		echo $errors;
-	}
-	unlink($logFile);
+    if(!empty($video['desc']))
+        continue;
+    $curTimestamp=time();
+    $logFile = "desc-".$video['id']."-$curTimestamp.log";
+    $cmd = $config['pythonPath']." ".$config['youtubedlPath']." ".$video['url']." --get-description";
+    if($config['verbose']){
+        echo "Commande : $cmd\n";
+        echo "Log file : $logFile\n";
+    }
+    $errors=launchProccess($cmd,$logFile);
+    if(empty($errors)){
+        $desc=file_get_contents($logFile);
+        echo $video['name']." :\n";
+        echo $desc."\n";
+        $conn=$db->prepare("UPDATE `videos` SET `desc` = :desc WHERE `id` = :id");
+        $desc=nl2br($desc);
+        $conn->bindParam(':desc',$desc);
+        $conn->bindParam(':id',$video['id']);
+        $conn->execute();
+    }else{
+        echo $errors;
+    }
+    unlink($logFile);
 }
 ?>

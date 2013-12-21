@@ -1,0 +1,79 @@
+<?php
+/**
+* This file is part of youtorr
+*
+* @author Jean-Lou Hau
+* @copyright 2013 Jean-Lou Hau sybix@jeannedhack.org
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with youtorr.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+#Youtorr config
+$config['trackerUrl'] = "http://tracker.openbittorrent.com:80/announce,udp://tracker.openbittorrent.com:80/announce";
+$config['torrentFileDir'] = ""; #For daemon
+$config['torrentDataDir'] = "";#For daemon
+$config['tmpDir'] = "/tmp/youtorr/";
+$config['channelSymlink'] = true; #
+$config['httpDownload'] = true;#don't trust if your files can be access via your web server
+$config['httpUserDownload'] = true;#Only logged user can download in http
+$config['sitePath'] = ""; 
+$config['frontTorrentFileDir'] = "torrent/torrent_active";
+$config['frontTorrentDataDir'] = "torrent/data";
+$config['nbDownloads'] = 1; #unused
+$config['logDir'] = 'log'; #unused
+$config['keepLogs'] = false;
+$config['maxSize'] = '50G';
+$config['verbose'] = true; #daemon only
+$config['exitOnError'] = false; #daemon only
+$config['channelCheckStep'] = 10;
+$config['DownloadSpeedLimit'] = 0; #unused
+$config['daemonLogFile'] = 'log/daemon.log'; #unused
+$config['timeToSleep'] = 30;
+$config['nbLastVideo'] = 5; #0 for all
+$config['nbLastChannel'] = 5;
+$config['nbVideoChannel'] = 10;
+$config['deleteFile']=true;
+$config['zipUserTorrent']=true; #Only for channel
+$config['zipPrefix']="YOUTORR-"; #May / cause bug ? Prefix name of zip file
+$config['torrentExt']=''; #transmission add .added to the .torrent file
+$config['forceHTTPS']=false;
+$config['daemonLog']=LOG_PID | LOG_PERROR;
+$config['enableAPI']=true;
+$config['daemonize']=false;
+#End youtorr config
+
+#Database config
+#sqlite
+#define('DB_ENGINE',"sqlite");
+#define('DB_NAME',"/home/sybix/public_html/youtorr/youtorr.db");
+#mysql
+define('DB_ENGINE',"mysql");
+define('DB_NAME',"youtorr");
+define('DB_USER',"youtorr");
+define('DB_PASSWORD',"youtorr");
+define('DB_HOST',"localhost");
+define('DB_PORT',3306);
+#End database config
+
+#Do no edit until you know what's you're doing
+$config['pythonPath'] = "python2";
+$config['youtubedlPath'] = "/usr/bin/youtube-dl ";
+$config['youtubedlErrors']['402']='ERROR: unable to download video info webpage: HTTP Error 402: Payment Required';
+$config['youtubedlErrors']['404']='ERROR: Unable to download webpage: HTTP Error 404'; #This variable is used to handle a 'know error'
+$config['youtubedlErrors']['Country']='ERROR: YouTube said: The uploader has not made this video available in your country.';
+$config['youtubedlErrors']['Invalid']='ERROR: Invalid URL:';
+$config['youtubedlErrors']['Unknown']='ERROR: unknown url type:';
+$config['youtubedlErrors']['Nickname']='WARNING: unable to extract uploader nickname';
+$config['youtubedlErrors']['Blocked']='ERROR: YouTube said: This video contains content';
+define('YOUTORR','');

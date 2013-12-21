@@ -20,23 +20,24 @@
 *
 */
 function mktorrent2($file,$trackersUrl,$torrentDir,$torrentData,$channel='',$symlink=false){
-	$dest = '';
-	$output = '';
-	if(empty($channel) || !$symlink){
-		$dest = "$torrentData";
-		$output = $file.".torrent";
-	}else{
-		$dest = "$torrentData/$channel";
-		$output = $channel."-".$file.".torrent";
-	}
-	$trackersUrl = explode(',',$trackersUrl);
-	$torrent = new Torrent ("$dest/$file");
-	foreach($trackersUrl as $tracker){
-		$torrent->announce($tracker);
-	}
-	$magnet=$torrent->magnet(false);
-	$torrent->save("$torrentDir/$output");
+    $dest = '';
+    $output = '';
+    if(empty($channel) || !$symlink){
+        $dest = "$torrentData";
+        $output = $file.".torrent";
+    }else{
+        $dest = "$torrentData/$channel";
+        $output = $channel."-".$file.".torrent";
+    }
+    $trackersUrl = explode(',',$trackersUrl);
+    $torrent = new Torrent ("$dest/$file");
+    foreach($trackersUrl as $tracker){
+        $torrent->announce($tracker);
+    }
+    $magnet=$torrent->magnet(false);
+    $torrent->save("$torrentDir/$output");
 }
+include_once('../htdocs/admin/config.defaults.php');
 include_once('../htdocs/admin/config.php');
 include_once('../htdocs/admin/functions.php');
 $force=false;
@@ -47,21 +48,21 @@ $videos=$conn->fetchAll(PDO::FETCH_ASSOC);
 $i=0;
 $total = count($videos);
 foreach($videos as $video){
-	$i++;
-	if($video['name'] == '') continue;
-	echo "$i / $total : ".$video['name']."\n";
-	$fileName=$video['name'];
-	if(!empty($video['id_channel'])){
-		$conn = $db->prepare("SELECT `id`,`channel` FROM `channels` WHERE `id`= :id_channel");
-		$conn->bindParam(':id_channel', $video['id_channel']);
-		$conn->execute();
-		$res = $conn->fetch(PDO::FETCH_ASSOC);
-		$magnetLink=mktorrent2($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],$res['channel'],$config['channelSymlink']);
-		$torrentFile = $res['channel']."-".$fileName.".torrent";
-	}else{
-		$magnetLink=mktorrent2($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],'',false);
-		$torrentFile = $fileName.".torrent";
-	}
+    $i++;
+    if($video['name'] == '') continue;
+    echo "$i / $total : ".$video['name']."\n";
+    $fileName=$video['name'];
+    if(!empty($video['id_channel'])){
+        $conn = $db->prepare("SELECT `id`,`channel` FROM `channels` WHERE `id`= :id_channel");
+        $conn->bindParam(':id_channel', $video['id_channel']);
+        $conn->execute();
+        $res = $conn->fetch(PDO::FETCH_ASSOC);
+        $magnetLink=mktorrent2($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],$res['channel'],$config['channelSymlink']);
+        $torrentFile = $res['channel']."-".$fileName.".torrent";
+    }else{
+        $magnetLink=mktorrent2($fileName,$config['trackerUrl'],$config['torrentFileDir'],$config['torrentDataDir'],'',false);
+        $torrentFile = $fileName.".torrent";
+    }
 
 }
 echo "\n";
